@@ -1,0 +1,21 @@
+import time
+
+def main():
+    try:
+        start = int(input("🔢 Enter a number to start doubling: "))
+    except ValueError:
+        print("❌ Please enter a valid number.")
+        return
+
+    print(f"\n🚀 Starting at {start}...\n")
+    current = start
+    step = 1
+
+    while True:
+        current *= 2
+        print(f"🔁 Step {step}: {start} x 2^{step} = {current}")
+        step += 1
+        time.sleep(0.5)
+
+if __name__ == "__main__":
+    main()
