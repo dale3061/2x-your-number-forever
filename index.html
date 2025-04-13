@@ -1,21 +1,69 @@
-import time
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Infinite Doubler</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 2rem;
+      background: #111;
+      color: #0f0;
+    }
+    input, button {
+      padding: 10px;
+      font-size: 1rem;
+      margin: 10px;
+    }
+    #output {
+      margin-top: 2rem;
+      max-height: 400px;
+      overflow-y: auto;
+      text-align: left;
+      border: 1px solid #0f0;
+      padding: 1rem;
+      background-color: #000;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔁 Infinite Doubler</h1>
+  <p>Enter a number to start doubling forever:</p>
+  <input type="number" id="startNumber" placeholder="Enter a number" />
+  <button onclick="startDoubling()">Start</button>
+  <button onclick="stopDoubling()">Stop</button>
 
-def main():
-    try:
-        start = int(input("🔢 Enter a number to start doubling: "))
-    except ValueError:
-        print("❌ Please enter a valid number.")
-        return
+  <div id="output"></div>
 
-    print(f"\n🚀 Starting at {start}...\n")
-    current = start
-    step = 1
+  <script>
+    let intervalId = null;
+    function startDoubling() {
+      const input = document.getElementById("startNumber");
+      const output = document.getElementById("output");
+      let number = parseInt(input.value);
+      if (isNaN(number)) {
+        alert("Please enter a valid number!");
+        return;
+      }
 
-    while True:
-        current *= 2
-        print(f"🔁 Step {step}: {start} x 2^{step} = {current}")
-        step += 1
-        time.sleep(0.5)
+      output.innerHTML = `🚀 Starting at ${number}<br/>`;
+      let step = 1;
+      let current = number;
 
-if __name__ == "__main__":
-    main()
+      clearInterval(intervalId); // clear any existing loops
+      intervalId = setInterval(() => {
+        current *= 2;
+        output.innerHTML += `🔁 Step ${step}: ${number} x 2^${step} = ${current}<br/>`;
+        output.scrollTop = output.scrollHeight;
+        step++;
+      }, 500);
+    }
+
+    function stopDoubling() {
+      clearInterval(intervalId);
+    }
+  </script>
+</body>
+</html>
